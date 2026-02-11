@@ -1,0 +1,958 @@
+{
+  "suggestions": {
+    "думаю": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "единственное",
+          "normal_form": "думать",
+          "confidence": 0.5,
+          "tag": "VERB,impf,intr sing,1per,pres,indc"
+        },
+        "hash": "4be54490",
+        "timestamp": "2026-02-08T15:12:42.089234"
+      }
+    ],
+    "пишу": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "единственное",
+          "normal_form": "писать",
+          "confidence": 1.0,
+          "tag": "VERB,impf,tran sing,1per,pres,indc"
+        },
+        "hash": "6361ba1c",
+        "timestamp": "2026-02-08T15:12:42.090275"
+      }
+    ],
+    "слово": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "слово",
+          "confidence": 0.59813,
+          "tag": "NOUN,inan,neut sing,nomn"
+        },
+        "hash": "c31d1bbb",
+        "timestamp": "2026-02-08T15:12:42.091174"
+      }
+    ],
+    "пока": [
+      {
+        "suggestion": {
+          "part_of_speech": "наречие",
+          "normal_form": "пока",
+          "confidence": 0.587064,
+          "tag": "ADVB"
+        },
+        "hash": "2c04ea58",
+        "timestamp": "2026-02-08T15:12:42.091174"
+      }
+    ],
+    "не": [
+      {
+        "suggestion": {
+          "part_of_speech": "частица",
+          "normal_form": "не",
+          "confidence": 1.0,
+          "tag": "PRCL"
+        },
+        "hash": "40ff2e26",
+        "timestamp": "2026-02-08T15:12:42.092176"
+      }
+    ],
+    "тут": [
+      {
+        "suggestion": {
+          "part_of_speech": "наречие",
+          "normal_form": "тут",
+          "confidence": 0.994152,
+          "tag": "ADVB,Dmns"
+        },
+        "hash": "45f335ce",
+        "timestamp": "2026-02-08T15:12:42.093180"
+      }
+    ],
+    "различные": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "number": "множественное",
+          "case_form": "именительный",
+          "normal_form": "различный",
+          "confidence": 0.555555,
+          "tag": "ADJF,Qual plur,nomn"
+        },
+        "hash": "9eac1421",
+        "timestamp": "2026-02-08T15:12:42.094165"
+      }
+    ],
+    "слова": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "родительный",
+          "normal_form": "слово",
+          "confidence": 0.449404,
+          "tag": "NOUN,inan,neut sing,gent"
+        },
+        "hash": "1d3a9aee",
+        "timestamp": "2026-02-08T15:12:42.094754"
+      }
+    ],
+    "примеру": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "дательный",
+          "normal_form": "пример",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,masc sing,datv"
+        },
+        "hash": "f7998809",
+        "timestamp": "2026-02-08T15:12:42.094754"
+      }
+    ],
+    "есть": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол (инфинитив)",
+          "normal_form": "есть",
+          "confidence": 0.892857,
+          "tag": "INFN,impf,tran"
+        },
+        "hash": "1dc75f55",
+        "timestamp": "2026-02-08T15:12:42.095753"
+      }
+    ],
+    "еще": [
+      {
+        "suggestion": {
+          "part_of_speech": "наречие",
+          "normal_form": "ещё",
+          "confidence": 0.5,
+          "tag": "ADVB"
+        },
+        "hash": "413b6464",
+        "timestamp": "2026-02-08T15:12:42.096841"
+      }
+    ],
+    "трава": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "трава",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,femn sing,nomn"
+        },
+        "hash": "4ecd7183",
+        "timestamp": "2026-02-08T15:12:42.097753"
+      }
+    ],
+    "небо": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "небо",
+          "confidence": 0.56,
+          "tag": "NOUN,inan,neut sing,nomn"
+        },
+        "hash": "8f013c29",
+        "timestamp": "2026-02-08T15:12:42.099828"
+      }
+    ],
+    "на": [
+      {
+        "suggestion": {
+          "part_of_speech": "предлог",
+          "normal_form": "на",
+          "confidence": 0.998961,
+          "tag": "PREP"
+        },
+        "hash": "750102e9",
+        "timestamp": "2026-02-08T15:12:42.101811"
+      }
+    ],
+    "самом": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "сам",
+          "confidence": 0.4,
+          "tag": "ADJF,Apro neut,sing,loct"
+        },
+        "hash": "6a862d90",
+        "timestamp": "2026-02-08T15:12:42.102814"
+      }
+    ],
+    "деле": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "дело",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,neut sing,loct"
+        },
+        "hash": "272b72ee",
+        "timestamp": "2026-02-08T15:12:42.103883"
+      }
+    ],
+    "потому": [
+      {
+        "suggestion": {
+          "part_of_speech": "наречие",
+          "normal_form": "потому",
+          "confidence": 1.0,
+          "tag": "ADVB,Dmns"
+        },
+        "hash": "f5ca6674",
+        "timestamp": "2026-02-08T15:12:42.103883"
+      }
+    ],
+    "иначе": [
+      {
+        "suggestion": {
+          "part_of_speech": "наречие",
+          "normal_form": "иначе",
+          "confidence": 0.666666,
+          "tag": "ADVB"
+        },
+        "hash": "07eb1c06",
+        "timestamp": "2026-02-08T15:12:42.105021"
+      }
+    ],
+    "как": [
+      {
+        "suggestion": {
+          "part_of_speech": "союз",
+          "normal_form": "как",
+          "confidence": 0.827586,
+          "tag": "CONJ"
+        },
+        "hash": "4b39eb2d",
+        "timestamp": "2026-02-08T15:12:42.106088"
+      }
+    ],
+    "если": [
+      {
+        "suggestion": {
+          "part_of_speech": "союз",
+          "normal_form": "если",
+          "confidence": 1.0,
+          "tag": "CONJ"
+        },
+        "hash": "19de749c",
+        "timestamp": "2026-02-08T15:12:42.107102"
+      }
+    ],
+    "противоречит": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "единственное",
+          "normal_form": "противоречить",
+          "confidence": 1.0,
+          "tag": "VERB,impf,intr sing,3per,pres,indc"
+        },
+        "hash": "7239de47",
+        "timestamp": "2026-02-08T15:12:42.108097"
+      }
+    ],
+    "для": [
+      {
+        "suggestion": {
+          "part_of_speech": "предлог",
+          "normal_form": "для",
+          "confidence": 0.999844,
+          "tag": "PREP"
+        },
+        "hash": "09afa9c1",
+        "timestamp": "2026-02-09T00:05:29.944316"
+      }
+    ],
+    "записи": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "родительный",
+          "normal_form": "запись",
+          "confidence": 0.443396,
+          "tag": "NOUN,inan,femn sing,gent"
+        },
+        "hash": "5bca7ad8",
+        "timestamp": "2026-02-09T00:05:29.944316"
+      }
+    ],
+    "хочу": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "единственное",
+          "normal_form": "хотеть",
+          "confidence": 1.0,
+          "tag": "VERB,impf,tran sing,1per,pres,indc"
+        },
+        "hash": "145f76a8",
+        "timestamp": "2026-02-09T00:05:29.944316"
+      }
+    ],
+    "записать": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол (инфинитив)",
+          "normal_form": "записать",
+          "confidence": 0.5,
+          "tag": "INFN,perf,tran"
+        },
+        "hash": "d66ba934",
+        "timestamp": "2026-02-09T00:05:29.944316"
+      }
+    ],
+    "некоторую": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "винительный",
+          "normal_form": "некоторый",
+          "confidence": 1.0,
+          "tag": "ADJF,Apro femn,sing,accs"
+        },
+        "hash": "64d3681c",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "запись": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "запись",
+          "confidence": 0.730769,
+          "tag": "NOUN,inan,femn sing,nomn"
+        },
+        "hash": "552cecee",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "которая": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "который",
+          "confidence": 1.0,
+          "tag": "ADJF,Subx,Apro,Anph femn,sing,nomn"
+        },
+        "hash": "728e0119",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "записывается": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "единственное",
+          "normal_form": "записываться",
+          "confidence": 1.0,
+          "tag": "VERB,impf,intr sing,3per,pres,indc"
+        },
+        "hash": "da83f121",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "устройством": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "творительный",
+          "normal_form": "устройство",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,neut sing,ablt"
+        },
+        "hash": "620c9bc3",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "предназначенным": [
+      {
+        "suggestion": {
+          "part_of_speech": "причастие",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "творительный",
+          "normal_form": "предназначить",
+          "confidence": 0.428571,
+          "tag": "PRTF,perf,tran,past,pssv,Adjx masc,sing,ablt"
+        },
+        "hash": "e6b7827a",
+        "timestamp": "2026-02-09T00:05:29.947910"
+      }
+    ],
+    "приложении": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "приложение",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,neut sing,loct"
+        },
+        "hash": "808a5e6c",
+        "timestamp": "2026-02-09T00:05:29.953628"
+      }
+    ],
+    "записывающее": [
+      {
+        "suggestion": {
+          "part_of_speech": "причастие",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "записывать",
+          "confidence": 0.5,
+          "tag": "PRTF,impf,tran,pres,actv neut,sing,nomn"
+        },
+        "hash": "6e0855f8",
+        "timestamp": "2026-02-09T00:09:08.336839"
+      }
+    ],
+    "неделенном": [
+      {
+        "suggestion": {
+          "part_of_speech": "причастие",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "неделить",
+          "confidence": 0.5,
+          "tag": "PRTF,impf,tran,past,pssv masc,sing,loct"
+        },
+        "hash": "bb682922",
+        "timestamp": "2026-02-09T00:09:08.336839"
+      }
+    ],
+    "возможностью": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "творительный",
+          "normal_form": "возможность",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,femn sing,ablt"
+        },
+        "hash": "ad2ceac1",
+        "timestamp": "2026-02-09T00:09:08.336839"
+      }
+    ],
+    "устройство": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "устройство",
+          "confidence": 0.565217,
+          "tag": "NOUN,inan,neut sing,nomn"
+        },
+        "hash": "ee439f8b",
+        "timestamp": "2026-02-09T00:09:08.336839"
+      }
+    ],
+    "чтобы": [
+      {
+        "suggestion": {
+          "part_of_speech": "союз",
+          "normal_form": "чтобы",
+          "confidence": 0.974358,
+          "tag": "CONJ"
+        },
+        "hash": "98bb3289",
+        "timestamp": "2026-02-09T00:09:08.346693"
+      }
+    ],
+    "при": [
+      {
+        "suggestion": {
+          "part_of_speech": "предлог",
+          "normal_form": "при",
+          "confidence": 0.99933,
+          "tag": "PREP"
+        },
+        "hash": "5eb550e8",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "прочтении": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "прочтение",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,neut sing,loct"
+        },
+        "hash": "0b19d0a3",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "были": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "множественное",
+          "normal_form": "быть",
+          "confidence": 0.997032,
+          "tag": "VERB,impf,intr plur,past,indc"
+        },
+        "hash": "29b42448",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "записаны": [
+      {
+        "suggestion": {
+          "part_of_speech": "причастие (краткое)",
+          "number": "множественное",
+          "normal_form": "записать",
+          "confidence": 1.0,
+          "tag": "PRTS,perf,past,pssv plur"
+        },
+        "hash": "2b9f4b67",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "записывающую": [
+      {
+        "suggestion": {
+          "part_of_speech": "причастие",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "винительный",
+          "normal_form": "записывать",
+          "confidence": 1.0,
+          "tag": "PRTF,impf,tran,pres,actv femn,sing,accs"
+        },
+        "hash": "9ae036bd",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "виде": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "вид",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,masc sing,loct"
+        },
+        "hash": "ee9f862d",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "графа": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "родительный",
+          "normal_form": "граф",
+          "confidence": 0.47619,
+          "tag": "NOUN,anim,masc sing,gent"
+        },
+        "hash": "217f2535",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "знаний": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "множественное",
+          "case_form": "родительный",
+          "normal_form": "знание",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,neut plur,gent"
+        },
+        "hash": "ccb1ea7d",
+        "timestamp": "2026-02-09T00:09:08.347358"
+      }
+    ],
+    "сущность": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "сущность",
+          "confidence": 0.625,
+          "tag": "NOUN,inan,femn sing,nomn"
+        },
+        "hash": "6eee26e1",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "суть": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "множественное",
+          "normal_form": "быть",
+          "confidence": 0.525,
+          "tag": "VERB,impf,intr plur,3per,pres,indc,Arch"
+        },
+        "hash": "f1aaf2f6",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "которой": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "родительный",
+          "normal_form": "который",
+          "confidence": 0.379549,
+          "tag": "ADJF,Subx,Apro,Anph femn,sing,gent"
+        },
+        "hash": "4ecaac05",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "записывать": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол (инфинитив)",
+          "normal_form": "записывать",
+          "confidence": 1.0,
+          "tag": "INFN,impf,tran"
+        },
+        "hash": "5364d485",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "новые": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "number": "множественное",
+          "case_form": "именительный",
+          "normal_form": "новый",
+          "confidence": 0.560975,
+          "tag": "ADJF,Qual plur,nomn"
+        },
+        "hash": "251cb893",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "знания": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "родительный",
+          "normal_form": "знание",
+          "confidence": 0.552238,
+          "tag": "NOUN,inan,neut sing,gent"
+        },
+        "hash": "fe932392",
+        "timestamp": "2026-02-09T00:09:08.357369"
+      }
+    ],
+    "основе": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "основа",
+          "confidence": 0.996784,
+          "tag": "NOUN,inan,femn sing,loct"
+        },
+        "hash": "24f0caea",
+        "timestamp": "2026-02-09T00:09:08.365110"
+      }
+    ],
+    "данных": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "number": "множественное",
+          "case_form": "родительный",
+          "normal_form": "данные",
+          "confidence": 0.889908,
+          "tag": "NOUN,inan,GNdr,Pltm plur,gent"
+        },
+        "hash": "8ac7fe1c",
+        "timestamp": "2026-02-09T00:09:08.367184"
+      }
+    ],
+    "что": [
+      {
+        "suggestion": {
+          "part_of_speech": "союз",
+          "normal_form": "что",
+          "confidence": 0.922033,
+          "tag": "CONJ"
+        },
+        "hash": "f8d0aeb3",
+        "timestamp": "2026-02-10T10:49:27.811545"
+      }
+    ],
+    "лежат": [
+      {
+        "suggestion": {
+          "part_of_speech": "глагол",
+          "number": "множественное",
+          "normal_form": "лежать",
+          "confidence": 1.0,
+          "tag": "VERB,impf,intr plur,3per,pres,indc"
+        },
+        "hash": "49c59db2",
+        "timestamp": "2026-02-10T10:49:27.813540"
+      }
+    ],
+    "текст": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "текст",
+          "confidence": 0.546666,
+          "tag": "NOUN,inan,masc sing,nomn"
+        },
+        "hash": "f82a5e4e",
+        "timestamp": "2026-02-10T10:49:27.814573"
+      }
+    ],
+    "зеленая": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "женский",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "зелёный",
+          "confidence": 1.0,
+          "tag": "ADJF,Qual femn,sing,nomn"
+        },
+        "hash": "b4b8a605",
+        "timestamp": "2026-02-10T10:49:27.816677"
+      }
+    ],
+    "голубое": [
+      {
+        "suggestion": {
+          "part_of_speech": "прилагательное",
+          "gender": "средний",
+          "number": "единственное",
+          "case_form": "именительный",
+          "normal_form": "голубой",
+          "confidence": 0.5,
+          "tag": "ADJF,Qual neut,sing,nomn"
+        },
+        "hash": "fb9a1bf9",
+        "timestamp": "2026-02-10T10:49:27.817676"
+      }
+    ],
+    "но": [
+      {
+        "suggestion": {
+          "part_of_speech": "союз",
+          "normal_form": "но",
+          "confidence": 0.999185,
+          "tag": "CONJ"
+        },
+        "hash": "251342b2",
+        "timestamp": "2026-02-10T10:49:27.819724"
+      }
+    ],
+    "мысле": [
+      {
+        "suggestion": {
+          "part_of_speech": "существительное",
+          "gender": "мужской",
+          "number": "единственное",
+          "case_form": "предложный",
+          "normal_form": "мысел",
+          "confidence": 1.0,
+          "tag": "NOUN,inan,masc sing,loct"
+        },
+        "hash": "d8452494",
+        "timestamp": "2026-02-10T10:49:27.820734"
+      }
+    ]
+  },
+  "accepted": {
+    "зеленая": {
+      "part_of_speech": "прилагательное",
+      "gender": "женский",
+      "number": "единственное",
+      "case_form": "именительный",
+      "normal_form": "зелёный",
+      "confidence": 1.0,
+      "tag": "ADJF,Qual femn,sing,nomn"
+    },
+    "лежат": {
+      "part_of_speech": "глагол",
+      "number": "множественное",
+      "normal_form": "лежать",
+      "confidence": 1.0,
+      "tag": "VERB,impf,intr plur,3per,pres,indc"
+    },
+    "что": {
+      "part_of_speech": "союз",
+      "normal_form": "что",
+      "confidence": 0.922033,
+      "tag": "CONJ"
+    },
+    "текст": {
+      "part_of_speech": "существительное",
+      "gender": "мужской",
+      "number": "единственное",
+      "case_form": "именительный",
+      "normal_form": "текст",
+      "confidence": 0.546666,
+      "tag": "NOUN,inan,masc sing,nomn"
+    },
+    "но": {
+      "part_of_speech": "союз",
+      "normal_form": "но",
+      "confidence": 0.999185,
+      "tag": "CONJ"
+    },
+    "голубое": {
+      "part_of_speech": "прилагательное",
+      "gender": "средний",
+      "number": "единственное",
+      "case_form": "именительный",
+      "normal_form": "голубой",
+      "confidence": 0.5,
+      "tag": "ADJF,Qual neut,sing,nomn"
+    },
+    "мысле": {
+      "part_of_speech": "существительное",
+      "gender": "мужской",
+      "number": "единственное",
+      "case_form": "предложный",
+      "normal_form": "мысел",
+      "confidence": 1.0,
+      "tag": "NOUN,inan,masc sing,loct"
+    }
+  },
+  "rejected": {
+    "думаю": [],
+    "пишу": [],
+    "слово": [],
+    "пока": [],
+    "не": [],
+    "что": [],
+    "тут": [],
+    "лежат": [],
+    "различные": [],
+    "слова": [],
+    "примеру": [],
+    "есть": [],
+    "еще": [],
+    "текст": [],
+    "трава": [],
+    "зеленая": [],
+    "небо": [],
+    "голубое": [],
+    "но": [],
+    "на": [],
+    "самом": [],
+    "деле": [],
+    "потому": [],
+    "иначе": [],
+    "как": [],
+    "если": [],
+    "противоречит": [],
+    "мысле": [],
+    "для": [],
+    "записи": [],
+    "хочу": [],
+    "записать": [],
+    "некоторую": [],
+    "запись": [],
+    "которая": [],
+    "записывается": [],
+    "устройством": [],
+    "предназначенным": [],
+    "приложении": [],
+    "записывающее": [],
+    "неделенном": [],
+    "возможностью": [],
+    "устройство": [],
+    "чтобы": [],
+    "при": [],
+    "прочтении": [],
+    "были": [],
+    "записаны": [],
+    "записывающую": [],
+    "виде": [],
+    "графа": [],
+    "знаний": [],
+    "сущность": [],
+    "суть": [],
+    "которой": [],
+    "записывать": [],
+    "новые": [],
+    "знания": [],
+    "основе": [],
+    "данных": []
+  },
+  "metadata": {
+    "version": "1.0",
+    "saved_at": "2026-02-10T10:49:27.820734",
+    "total_suggestions": 60,
+    "total_accepted": 7,
+    "total_rejected": 0
+  }
+}

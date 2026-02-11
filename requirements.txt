@@ -1,0 +1,4 @@
+psycopg2-binary>=2.9.5
+nltk>=3.8
+striprtf>=0.0.24
+pymorphy3>=1.2.0
