@@ -290,21 +290,6 @@
         "timestamp": "2026-02-09T00:05:29.944316"
       }
     ],
-    "записи": [
-      {
-        "suggestion": {
-          "part_of_speech": "существительное",
-          "gender": "женский",
-          "number": "единственное",
-          "case_form": "родительный",
-          "normal_form": "запись",
-          "confidence": 0.443396,
-          "tag": "NOUN,inan,femn sing,gent"
-        },
-        "hash": "5bca7ad8",
-        "timestamp": "2026-02-09T00:05:29.944316"
-      }
-    ],
     "хочу": [
       {
         "suggestion": {
@@ -884,6 +869,15 @@
       "normal_form": "мысел",
       "confidence": 1.0,
       "tag": "NOUN,inan,masc sing,loct"
+    },
+    "записи": {
+      "part_of_speech": "существительное",
+      "gender": "женский",
+      "number": "единственное",
+      "case_form": "родительный",
+      "normal_form": "запись",
+      "confidence": 0.443396,
+      "tag": "NOUN,inan,femn sing,gent"
     }
   },
   "rejected": {
@@ -950,9 +944,9 @@
   },
   "metadata": {
     "version": "1.0",
-    "saved_at": "2026-02-10T10:49:27.820734",
-    "total_suggestions": 60,
-    "total_accepted": 7,
+    "saved_at": "2026-02-19T20:07:43.759798",
+    "total_suggestions": 59,
+    "total_accepted": 8,
     "total_rejected": 0
   }
 }

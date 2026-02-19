@@ -3,7 +3,7 @@ from tkinter import ttk, filedialog, messagebox, scrolledtext
 from database import Database, ConnectionFactory
 from text_processor import TextProcessor
 from morphology_analyzer import get_morphology_analyzer
-from suggestion_manager import MorphologySuggestionManager
+from suggestion_manager import get_suggestion_manager
 
 class WidgetFactory:
     @staticmethod
@@ -92,7 +92,7 @@ class UIFactory:
     def create_word_list_panel(parent, app):
         frame = WidgetFactory.create_frame(parent)
         
-        columns = ('ID', 'Словоформа', 'Частота', 'Часть речи', 'Род', 'Число', 'Падеж')
+        columns = ('ID', 'Словоформа & лексема', 'Частота', 'Часть речи', 'Род', 'Число', 'Падеж')
         app.tree = WidgetFactory.create_treeview(
             frame, columns=columns, show='headings', height=25
         )
@@ -212,7 +212,7 @@ class DictionaryApp:
         
         self.db = Database()
         self.text_processor = TextProcessor(auto_analyze=True, confidence_threshold=0.3)
-        self.suggestion_manager = MorphologySuggestionManager()
+        self.suggestion_manager = get_suggestion_manager()
         
         self.create_widgets()
         self.load_word_forms()
@@ -663,6 +663,9 @@ class DictionaryApp:
            - Нажмите "Экспорт в JSON"
            - Сохраните полный словарь в JSON формате
         
+        Словоформа — это конкретная грамматическая форма слова.
+        Лексема — это основная единица языка, представляющая собой слово в совокупности всех его форм (словоформ) и лексических значений.
+           
         ВАЖНО: Система работает с русским языком.
                Для работы требуется подключение к PostgreSQL.
         """
