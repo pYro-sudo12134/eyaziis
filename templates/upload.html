@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+
+{% block title %}Загрузка документа в корпус{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-progress {
+        display: none;
+        margin-top: 20px;
+    }
+    
+    .file-info {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .file-info i {
+        font-size: 2rem;
+        color: #6c757d;
+    }
+    
+    .metadata-preview {
+        background-color: #e9ecef;
+        border-radius: 5px;
+        padding: 15px;
+        margin-top: 15px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .genre-badge {
+        cursor: pointer;
+        margin: 2px;
+    }
+    
+    .genre-badge:hover {
+        opacity: 0.8;
+    }
+    
+    .genre-badge.active {
+        background-color: #007bff !important;
+        color: white !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('corpus_view') }}">Корпус</a></li>
+                <li class="breadcrumb-item active">Загрузка документа</li>
+            </ol>
+        </nav>
+        
+        <h2>Загрузка документа в корпус</h2>
+        <p class="lead">Добавьте новый текст в корпус о животных</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-upload"></i> Форма загрузки</h5>
+            </div>
+            <div class="card-body">
+                <form id="uploadForm" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_document') }}">
+                    <div class="upload-area" id="dropArea">
+                        <i class="bi bi-cloud-upload"></i>
+                        <h4 class="mt-3">Перетащите файл сюда</h4>
+                        <p class="text-muted">или</p>
+                        <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            <i class="bi bi-folder2-open"></i> Выберите файл
+                        </button>
+                        <input type="file" id="fileInput" name="file" style="display: none;" accept=".txt,.rtf">
+                        <div id="fileInfo" class="file-info" style="display: none;">
+                            <div class="row">
+                                <div class="col-2 text-center">
+                                    <i class="bi bi-file-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 id="fileName"></h6>
+                                    <p class="mb-0 text-muted small" id="fileSize"></p>
+                                    <p class="mb-0 text-muted small" id="fileType"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5><i class="bi bi-info-circle"></i> Метаданные документа</h5>
+                        <hr>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Название документа *</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                                <div class="form-text">Название, которое будет отображаться в корпусе</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Автор</label>
+                                <input type="text" class="form-control" id="author" name="author" placeholder="Неизвестен">
+                                <div class="form-text">Автор текста</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="year" class="form-label">Год издания</label>
+                                <input type="number" class="form-control" id="year" name="year" min="1000" max="2026">
+                                <div class="form-text">Год публикации</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="genre" class="form-label">Жанр</label>
+                                <input type="text" class="form-control" id="genre" name="genre" list="genreList">
+                                <datalist id="genreList">
+                                    <option value="научный">
+                                    <option value="научно-популярный">
+                                    <option value="художественный">
+                                    <option value="публицистический">
+                                    <option value="учебный">
+                                    <option value="справочный">
+                                    <option value="энциклопедический">
+                                </datalist>
+                                <div class="form-text">Жанр текста</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="source" class="form-label">Источник</label>
+                                <input type="text" class="form-control" id="source" name="source">
+                                <div class="form-text">Книга, журнал, сайт и т.д.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Быстрый выбор жанра:</label>
+                            <div>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('научный')">🔬 Научный</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('научно-популярный')">📚 Научно-популярный</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('художественный')">📖 Художественный</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('публицистический')">📰 Публицистический</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('учебный')">🎓 Учебный</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('справочный')">📋 Справочный</span>
+                                <span class="badge bg-light text-dark genre-badge" onclick="setGenre('энциклопедический')">🌐 Энциклопедический</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metadata-preview" id="metadataPreview" style="display: none;">
+                            <h6><i class="bi bi-eye"></i> Предварительный просмотр:</h6>
+                            <pre id="metadataJson"></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5><i class="bi bi-gear"></i> Настройки обработки</h5>
+                        <hr>
+                        
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="autoMorphology" name="auto_morphology" checked>
+                            <label class="form-check-label" for="autoMorphology">
+                                Автоматический морфологический анализ
+                            </label>
+                            <div class="form-text">Выполнить морфологический разбор всех слов</div>
+                        </div>
+                        
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="buildConcordance" name="build_concordance" checked>
+                            <label class="form-check-label" for="buildConcordance">
+                                Построить конкорданс
+                            </label>
+                            <div class="form-text">Создать конкорданс для всех слов</div>
+                        </div>
+                        
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="extractKeywords" name="extract_keywords" checked>
+                            <label class="form-check-label" for="extractKeywords">
+                                Извлечение ключевых слов
+                            </label>
+                            <div class="form-text">Выделить ключевые слова по теме "Животные"</div>
+                        </div>
+                    </div>
+
+                    <div class="upload-progress" id="uploadProgress">
+                        <h6><i class="bi bi-arrow-repeat"></i> Загрузка и обработка...</h6>
+                        <div class="progress mb-2" style="height: 30px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                id="progressBar" 
+                                role="progressbar" 
+                                style="width: 0%; transition: width 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);" 
+                                aria-valuenow="0" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">0%</div>
+                        </div>
+                        <p class="text-muted small" id="progressStatus">Подготовка...</p>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <i class="bi bi-cloud-upload"></i> Загрузить и обработать
+                        </button>
+                        <button type="reset" class="btn btn-secondary btn-lg" onclick="resetForm()">
+                            <i class="bi bi-arrow-counterclockwise"></i> Сбросить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Информация о загрузке</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-file-earmark-text"></i> Поддерживаемые форматы:</h6>
+                        <ul>
+                            <li><strong>TXT</strong> - текстовые файлы (UTF-8, CP1251)</li>
+                            <li><strong>RTF</strong> - формат Rich Text Format</li>
+                            <li><strong>PDF</strong> - формат Portable Document Forma</li>
+                            <li><strong>DOC</strong> - формат Document(Word)</li>
+                            <li><strong>DOCX</strong> - формат Document XML(Word)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-shield-check"></i> Ограничения:</h6>
+                        <ul>
+                            <li>Максимальный размер: <strong>16 МБ</strong></li>
+                            <li>Максимальное количество слов: <strong>100 000</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h6 class="mt-3"><i class="bi bi-diagram-3"></i> Этапы обработки:</h6>
+                <ol class="list-group list-group-numbered mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Загрузка файла</div>
+                            Передача файла на сервер
+                        </div>
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Токенизация</div>
+                            Разбиение на предложения и слова
+                        </div>
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Морфологический анализ</div>
+                            Определение частей речи, рода, числа, падежа
+                        </div>
+                        <span class="badge bg-primary rounded-pill">3</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Построение конкорданса</div>
+                            Создание контекстных списков
+                        </div>
+                        <span class="badge bg-primary rounded-pill">4</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Сохранение в БД</div>
+                            Запись в корпус
+                        </div>
+                        <span class="badge bg-primary rounded-pill">5</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadForm = document.getElementById('uploadForm');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.add('border-primary', 'bg-light');
+        }, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.remove('border-primary', 'bg-light');
+        }, false);
+    });
+    
+    dropArea.addEventListener('drop', function(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0) {
+            fileInput.files = files;
+            displayFileInfo(files[0]);
+        }
+    }, false);
+    
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            displayFileInfo(this.files[0]);
+            
+            if (!document.getElementById('title').value) {
+                const fileName = this.files[0].name;
+                const titleWithoutExt = fileName.replace(/\.[^/.]+$/, "");
+                document.getElementById('title').value = titleWithoutExt;
+                updateMetadataPreview();
+            }
+        }
+    });
+    
+    function displayFileInfo(file) {
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('fileSize').textContent = 'Размер: ' + formatFileSize(file.size);
+        
+        let fileType = 'Тип: ';
+        if (file.name.toLowerCase().endsWith('.txt')) {
+            fileType += 'Текстовый файл (TXT)';
+        } else if (file.name.toLowerCase().endsWith('.rtf')) {
+            fileType += 'Rich Text Format (RTF)';
+        } else {
+            fileType += 'Неизвестный формат';
+        }
+        document.getElementById('fileType').textContent = fileType;
+        
+        document.getElementById('fileInfo').style.display = 'block';
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Байт';
+        const k = 1024;
+        const sizes = ['Байт', 'КБ', 'МБ', 'ГБ'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function updateProgress(percent, status) {
+        const progressBar = document.getElementById('progressBar');
+        const progressStatus = document.getElementById('progressStatus');
+        
+        percent = Math.min(100, Math.max(0, Math.round(percent)));
+        
+        progressBar.style.width = percent + '%';
+        progressBar.setAttribute('aria-valuenow', percent);
+        progressBar.textContent = percent + '%';
+        progressStatus.textContent = status;
+        
+        progressBar.classList.remove('bg-primary', 'bg-info', 'bg-warning', 'bg-success', 'bg-danger');
+        
+        if (percent === 100) {
+            progressBar.classList.add('bg-success');
+        } else if (percent > 70) {
+            progressBar.classList.add('bg-warning');
+        } else if (percent > 30) {
+            progressBar.classList.add('bg-info');
+        } else {
+            progressBar.classList.add('bg-primary');
+        }
+    }
+    
+    uploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!fileInput.files.length) {
+            showNotification('Пожалуйста, выберите файл', 'warning');
+            return;
+        }
+        
+        if (!document.getElementById('title').value) {
+            showNotification('Пожалуйста, укажите название документа', 'warning');
+            return;
+        }
+        
+        const formData = new FormData(uploadForm);
+        
+        formData.append('auto_morphology', document.getElementById('autoMorphology').checked);
+        formData.append('build_concordance', document.getElementById('buildConcordance').checked);
+        formData.append('extract_keywords', document.getElementById('extractKeywords').checked);
+        
+        document.getElementById('uploadProgress').style.display = 'block';
+        document.getElementById('submitBtn').disabled = true;
+        
+        updateProgress(0, 'Начало загрузки...');
+        
+        $.ajax({
+            xhr: function() {
+                const xhr = new window.XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        updateProgress(percent, 'Загрузка: ' + percent + '%');
+                    }
+                }, false);
+                
+                xhr.addEventListener('loadstart', function() {
+                    updateProgress(5, 'Подключение...');
+                });
+                
+                return xhr;
+            },
+            url: uploadForm.action,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                updateProgress(100, 'Готово!');
+                showNotification('Документ успешно загружен', 'success');
+                setTimeout(() => window.location.href = '/corpus', 1000);
+            },
+            error: function(xhr, status, error) {
+                updateProgress(0, 'Ошибка загрузки');
+                showNotification('Ошибка: ' + error, 'error');
+                setTimeout(() => {
+                    document.getElementById('uploadProgress').style.display = 'none';
+                    document.getElementById('submitBtn').disabled = false;
+                }, 2000);
+            }
+        });
+    });
+    
+    function setGenre(genre) {
+        document.getElementById('genre').value = genre;
+        
+        document.querySelectorAll('.genre-badge').forEach(badge => {
+            badge.classList.remove('active');
+            if (badge.textContent.includes(genre)) {
+                badge.classList.add('active');
+            }
+        });
+        
+        updateMetadataPreview();
+    }
+    
+    function updateMetadataPreview() {
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value || 'Неизвестен';
+        const year = document.getElementById('year').value;
+        const genre = document.getElementById('genre').value;
+        const source = document.getElementById('source').value;
+        
+        if (title || author || year || genre || source) {
+            const metadata = {
+                title: title || '—',
+                author: author,
+                year: year || '—',
+                genre: genre || '—',
+                source: source || '—',
+                domain: 'animals'
+            };
+            
+            document.getElementById('metadataJson').textContent = JSON.stringify(metadata, null, 2);
+            document.getElementById('metadataPreview').style.display = 'block';
+        } else {
+            document.getElementById('metadataPreview').style.display = 'none';
+        }
+    }
+    
+    function resetForm() {
+        document.getElementById('uploadForm').reset();
+        document.getElementById('fileInfo').style.display = 'none';
+        document.getElementById('metadataPreview').style.display = 'none';
+        document.getElementById('uploadProgress').style.display = 'none';
+        document.getElementById('submitBtn').disabled = false;
+        
+        document.querySelectorAll('.genre-badge').forEach(badge => {
+            badge.classList.remove('active');
+        });
+    }
+    
+    ['title', 'author', 'year', 'genre', 'source'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateMetadataPreview);
+    });
+    
+    window.setGenre = setGenre;
+    window.resetForm = resetForm;
+});
+</script>
+{% endblock %}

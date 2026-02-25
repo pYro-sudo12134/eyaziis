@@ -6,6 +6,10 @@ from nltk.tokenize import word_tokenize
 from collections import Counter
 from typing import List, Dict
 import warnings
+import PyPDF2
+import subprocess
+import os
+from docx import Document
 warnings.filterwarnings('ignore')
 from morphology_analyzer import get_morphology_analyzer
 
@@ -54,6 +58,57 @@ class RTFReaderStrategy(FileReaderStrategy):
             
         except Exception as e:
             print(f"Ошибка чтения RTF файла {file_path}: {e}")
+            return ""
+
+class PDFReaderStrategy(FileReaderStrategy):
+    def read(self, file_path):
+        if PyPDF2 is None:
+            return "[PDF поддержка не установлена]"
+        
+        try:
+            text = []
+            with open(file_path, 'rb') as f:
+                pdf_reader = PyPDF2.PdfReader(f)
+                for page in pdf_reader.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                        text.append(page_text)
+            return '\n'.join(text)
+        except Exception as e:
+            print(f"Ошибка чтения PDF: {e}")
+            return ""
+
+class DOCXReaderStrategy(FileReaderStrategy):
+    def read(self, file_path):
+        if Document is None:
+            return "[DOCX поддержка не установлена]"
+        
+        try:
+            doc = Document(file_path)
+            text = [paragraph.text for paragraph in doc.paragraphs]
+            return '\n'.join(text)
+        except Exception as e:
+            print(f"Ошибка чтения DOCX: {e}")
+            return ""
+
+class DOCReaderStrategy(FileReaderStrategy):
+    def read(self, file_path):
+        try:
+            result = subprocess.run(
+                ['antiword', file_path], 
+                capture_output=True, 
+                text=True
+            )
+            if result.returncode == 0:
+                return result.stdout
+            else:
+                with open(file_path, 'rb') as f:
+                    content = f.read()
+                    text = content.decode('utf-8', errors='ignore')
+                    text = ''.join(c for c in text if c.isprintable() or c in '\n\r\t')
+                    return text
+        except Exception as e:
+            print(f"Ошибка чтения DOC: {e}")
             return ""
 
 class LanguageProcessorStrategy(ABC):
@@ -131,10 +186,17 @@ class TextProcessor:
         self.language_processor = processor
     
     def _get_reader_strategy(self, file_path):
-        if file_path.lower().endswith('.txt'):
+        ext = file_path.lower()
+        if ext.endswith('.txt'):
             return TXTReaderStrategy()
-        elif file_path.lower().endswith('.rtf'):
+        elif ext.endswith('.rtf'):
             return RTFReaderStrategy()
+        elif ext.endswith('.pdf'):
+            return PDFReaderStrategy()
+        elif ext.endswith('.docx'):
+            return DOCXReaderStrategy()
+        elif ext.endswith('.doc'):
+            return DOCReaderStrategy()
         else:
             raise ValueError(f"Неподдерживаемый формат: {file_path}")
     

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск в корпусе{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Поиск в корпусе</h2>
+        <p class="lead">Поиск по текстам о животных</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-search"></i> Параметры поиска</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('search') }}">
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Поисковый запрос</label>
+                        <input type="text" class="form-control form-control-lg" 
+                               id="query" name="query" required 
+                               placeholder="Введите слово или фразу...">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Тип поиска</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="search_type" id="type_word" 
+                                           value="word_form" checked>
+                                    <label class="form-check-label" for="type_word">
+                                        По словоформе
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="search_type" id="type_lemma" 
+                                           value="lemma">
+                                    <label class="form-check-label" for="type_lemma">
+                                        По лемме
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="search_type" id="type_concordance" 
+                                           value="concordance">
+                                    <label class="form-check-label" for="type_concordance">
+                                        Конкорданс
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="search_type" id="type_morph" 
+                                           value="morphology">
+                                    <label class="form-check-label" for="type_morph">
+                                        Морфологический поиск
+                                    </label>
+                                </div>
+                                <small class="text-muted">
+                                    Формат: pos=существительное&gender=мужской
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Фильтры</label>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <input type="text" class="form-control" 
+                                       name="author" placeholder="Автор">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <input type="text" class="form-control" 
+                                       name="genre" placeholder="Жанр">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <input type="number" class="form-control" 
+                                       name="year_from" placeholder="Год от">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <input type="number" class="form-control" 
+                                       name="year_to" placeholder="Год до">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-search"></i> Найти
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Примеры запросов</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>По словоформе:</strong> "медведь", "лисица", "волка"</li>
+                    <li><strong>По лемме:</strong> "медведь" (найдет все формы: медведь, медведя, медведи...)</li>
+                    <li><strong>Морфологический:</strong> 
+                        <code>pos=существительное&number=множественное</code> - все существительные во мн.ч.
+                    </li>
+                    <li><strong>Конкорданс:</strong> "медведь" (покажет слово в контексте)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Конкорданс: {{ word }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('search') }}">Поиск</a></li>
+                <li class="breadcrumb-item active">Конкорданс</li>
+            </ol>
+        </nav>
+        
+        <h2>Конкорданс для слова "{{ word }}"</h2>
+        <p class="lead">Найдено вхождений: {{ results|length }}</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if results %}
+            <div class="list-group">
+                {% for item in results %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-muted">{{ item.document_title }}</h6>
+                            <small class="text-muted">#{{ loop.index }}</small>
+                        </div>
+                        <p class="mb-1 concordance-line">
+                            <span class="text-muted">{{ item.left_context }}</span>
+                            <span class="fw-bold text-danger bg-light px-1">{{ item.keyword }}</span>
+                            <span class="text-muted">{{ item.right_context }}</span>
+                        </p>
+                        <small class="text-muted">
+                            <i class="bi bi-chat"></i> {{ item.full_sentence }}
+                        </small>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <i class="bi bi-info-circle"></i> 
+                Для слова "{{ word }}" не найдено вхождений в корпусе.
+            </div>
+        {% endif %}
+        
+        <div class="mt-3">
+            <a href="{{ url_for('search') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> К поиску
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.concordance-line {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1em;
+    line-height: 1.6;
+    padding: 10px 0;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Корпусный менеджер{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-5">
+        <h1>Корпусный менеджер</h1>
+        <p class="lead">Предметная область: Животные (русский язык)</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-files display-1 text-primary"></i>
+                <h5 class="card-title mt-3">Корпус</h5>
+                <p class="card-text">Просмотр документов в корпусе</p>
+                <a href="{{ url_for('corpus_view') }}" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-search display-1 text-success"></i>
+                <h5 class="card-title mt-3">Поиск</h5>
+                <p class="card-text">Поиск по словоформам, леммам и морфологии</p>
+                <a href="{{ url_for('search') }}" class="btn btn-success">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-bar-chart display-1 text-info"></i>
+                <h5 class="card-title mt-3">Статистика</h5>
+                <p class="card-text">Статистические данные по корпусу</p>
+                <a href="{{ url_for('statistics') }}" class="btn btn-info text-white">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-upload display-1 text-warning"></i>
+                <h5 class="card-title mt-3">Загрузка</h5>
+                <p class="card-text">Добавление новых текстов в корпус</p>
+                <a href="{{ url_for('upload_document') }}" class="btn btn-warning text-white">Перейти</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> О корпусе</h5>
+            </div>
+            <div class="card-body">
+                <p>Корпус текстов по теме "Животные" включает:</p>
+                <ul>
+                    <li>Научно-популярные статьи о животных</li>
+                    <li>Энциклопедические описания видов</li>
+                    <li>Художественные тексты с описанием животных</li>
+                    <li>Учебные материалы по зоологии</li>
+                </ul>
+                <p>Корпус размечен на уровнях:</p>
+                <ul>
+                    <li>Документы (метаданные)</li>
+                    <li>Предложения</li>
+                    <li>Токены (слова и пунктуация)</li>
+                    <li>Морфологическая разметка</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-gear"></i> Возможности</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>Конкорданс</strong> - вывод слова в контексте</li>
+                    <li><strong>Поиск по словоформам</strong> - точное совпадение</li>
+                    <li><strong>Поиск по леммам</strong> - все формы слова</li>
+                    <li><strong>Морфологический поиск</strong> - по частям речи, роду, числу, падежу</li>
+                    <li><strong>Статистика</strong> - частотные слова, распределение по категориям</li>
+                    <li><strong>Экспорт</strong> - выгрузка результатов в JSON/CSV</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

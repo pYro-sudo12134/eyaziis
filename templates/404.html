@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75">
+    <div class="col-md-8 offset-md-2 text-center py-5">
+        <div class="error-template py-5">
+            <h1 class="display-1 text-muted">404</h1>
+            <h2 class="display-4">Страница не найдена</h2>
+            <div class="error-details my-4">
+                <p class="lead">Извините, запрашиваемая страница не существует или была перемещена.</p>
+            </div>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-house-door"></i> Вернуться на главную
+                </a>
+                <a href="{{ url_for('help_page') }}" class="btn btn-outline-secondary btn-lg ms-2">
+                    <i class="bi bi-question-circle"></i> Справка
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.min-vh-75 {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+}
+.error-template {
+    animation: fadeIn 0.5s ease-in;
+}
+</style>
+{% endblock %}

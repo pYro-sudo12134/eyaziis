@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Справка{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Справка по корпусному менеджеру</h2>
+        <p class="lead">Предметная область: Животные (русский язык)</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="accordion" id="helpAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLing">
+                        <i class="bi bi-book me-2"></i> Лингвистический словарь
+                    </button>
+                </h2>
+                <div id="collapseLing" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">📖 Основные понятия</h5>
+                                
+                                <div class="mb-3">
+                                    <h6><span class="badge bg-primary">Лемма</span></h6>
+                                    <p class="mb-1"><strong>Начальная (словарная) форма слова.</strong></p>
+                                    <p>Для существительных — именительный падеж, единственное число. Для глаголов — инфинитив.</p>
+                                    <p><em>Пример:</em> Для слов "медведь", "медведя", "медведю" лемма — <strong>"медведь"</strong>.<br>
+                                    Для слов "ходит", "ходил", "ходила" лемма — <strong>"ходить"</strong>.</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6><span class="badge bg-success">Словоформа</span></h6>
+                                    <p class="mb-1"><strong>Конкретная грамматическая форма слова.</strong></p>
+                                    <p>Слово в том виде, в котором оно встречается в тексте, с определённым окончанием.</p>
+                                    <p><em>Пример:</em> <strong>"медведя"</strong>, <strong>"медведю"</strong>, <strong>"медведи"</strong> — это разные словоформы одной леммы "медведь".</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6><span class="badge bg-info">Конкорданс</span></h6>
+                                    <p class="mb-1"><strong>Слово в контексте.</strong></p>
+                                    <p>Показывает, как слово употребляется в окружении других слов. Обычно выводится несколько слов слева и справа от искомого слова.</p>
+                                    <p><em>Пример:</em> Для слова "медведь":<br>
+                                    <span class="text-muted">"В России бурый"</span> <span class="fw-bold text-danger">медведь</span> <span class="text-muted">"широко распространён"</span><br>
+                                    <span class="text-muted">"Охота на"</span> <span class="fw-bold text-danger">медведя</span> <span class="text-muted">"строго регулируется"</span></p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6><span class="badge bg-warning text-dark">Часть речи (POS)</span></h6>
+                                    <p class="mb-1"><strong>Грамматическая категория слова.</strong></p>
+                                    <p>Определяет роль слова в предложении.</p>
+                                    <p><em>Основные части речи:</em> существительное, прилагательное, глагол, наречие, местоимение, предлог и т.д.</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6><span class="badge bg-secondary">Морфологические признаки</span></h6>
+                                    <p class="mb-1"><strong>Грамматические характеристики слова.</strong></p>
+                                    <ul>
+                                        <li><strong>Род:</strong> мужской, женский, средний</li>
+                                        <li><strong>Число:</strong> единственное, множественное</li>
+                                        <li><strong>Падеж:</strong> именительный, родительный, дательный, винительный, творительный, предложный</li>
+                                        <li><strong>Время (для глаголов):</strong> настоящее, прошедшее, будущее</li>
+                                    </ul>
+                                    <p><em>Пример:</em> Слово "медведя" — существительное, мужской род, единственное число, родительный падеж.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                        <i class="bi bi-info-circle me-2"></i> О корпусе
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Корпус текстов</strong> — это структурированная коллекция текстов, размеченная по различным лингвистическим параметрам.</p>
+                        <p>В данном корпусе представлены тексты на русском языке, относящиеся к предметной области "Животные". Корпус включает:</p>
+                        <ul>
+                            <li>Научно-популярные статьи о животных</li>
+                            <li>Энциклопедические статьи</li>
+                            <li>Художественные тексты с описанием животных</li>
+                            <li>Учебные материалы</li>
+                        </ul>
+                        <p><strong>Разметка корпуса:</strong></p>
+                        <ul>
+                            <li>Метаданные документов (автор, год, жанр, источник)</li>
+                            <li>Предложения с порядковыми номерами</li>
+                            <li>Токены (слова) с морфологической информацией</li>
+                            <li>Конкорданс (слово в контексте)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                        <i class="bi bi-search me-2"></i> Типы поиска
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <h6>1. Поиск по словоформе</h6>
+                        <p>Ищет точное совпадение с введённым словом. Учитывает регистр и окончания.</p>
+                        <p><em>Пример:</em> "медведь" — найдёт только слово "медведь"</p>
+                        
+                        <h6 class="mt-3">2. Поиск по лемме</h6>
+                        <p>Ищет все формы слова (нормальная форма + все окончания).</p>
+                        <p><em>Пример:</em> "медведь" — найдёт "медведь", "медведя", "медведю", "медведи" и т.д.</p>
+                        
+                        <h6 class="mt-3">3. Конкорданс</h6>
+                        <p>Показывает слово в контексте (слева и справа от слова). Позволяет увидеть употребление слова в окружении.</p>
+                        
+                        <h6 class="mt-3">4. Морфологический поиск</h6>
+                        <p>Поиск по грамматическим категориям. Формат запроса: <code>параметр=значение&параметр=значение</code></p>
+                        <p><em>Пример:</em> <code>pos=существительное&number=множественное&case=родительный</code></p>
+                        <p>Доступные параметры:</p>
+                        <ul>
+                            <li><code>pos</code> — часть речи (существительное, прилагательное, глагол...)</li>
+                            <li><code>gender</code> — род (мужской, женский, средний)</li>
+                            <li><code>number</code> — число (единственное, множественное)</li>
+                            <li><code>case</code> — падеж (именительный, родительный...)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                        <i class="bi bi-bar-chart me-2"></i> Статистика
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <p>Статистический модуль предоставляет:</p>
+                        <ul>
+                            <li><strong>Общая статистика</strong> — количество документов, предложений, слов</li>
+                            <li><strong>Частотные слова</strong> — самые употребляемые слова в корпусе</li>
+                            <li><strong>Распределение частей речи</strong> — процентное соотношение</li>
+                            <li><strong>Морфологическая статистика</strong> — распределение по роду, числу, падежу</li>
+                        </ul>
+                        <p>Доступен экспорт статистики в форматах JSON и CSV.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                        <i class="bi bi-upload me-2"></i> Загрузка документов
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <p>Для добавления нового документа в корпус:</p>
+                        <ol>
+                            <li>Перейдите в раздел "Загрузить"</li>
+                            <li>Заполните метаданные (название, автор, год, жанр, источник)</li>
+                            <li>Выберите файл (поддерживаются форматы TXT, RTF, PDF, DOCX, DOC)</li>
+                            <li>Нажмите "Загрузить"</li>
+                        </ol>
+                        <p>После загрузки документ автоматически обрабатывается:</p>
+                        <ul>
+                            <li>Разбивается на предложения</li>
+                            <li>Токенизируется (разбивается на слова)</li>
+                            <li>Выполняется морфологический анализ</li>
+                            <li>Строится конкорданс</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+                        <i class="bi bi-question-circle me-2"></i> Часто задаваемые вопросы
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                    <div class="accordion-body">
+                        <h6>Q: Какие форматы файлов поддерживаются?</h6>
+                        <p>A: Поддерживаются TXT, RTF, PDF, DOCX, DOC файлы.</p>
+                        
+                        <h6>Q: Какой объём текста можно загрузить?</h6>
+                        <p>A: Максимальный размер файла — 16 МБ.</p>
+                        
+                        <h6>Q: Как интерпретировать результаты конкорданса?</h6>
+                        <p>A: В конкордансе показывается ключевое слово, выделенное жирным, и контекст (до 5 слов слева и справа).</p>
+                        
+                        <h6>Q: Можно ли скачать результаты поиска?</h6>
+                        <p>A: Да, можно экспортировать статистику в JSON или CSV форматы.</p>
+                        
+                        <h6>Q: Как часто обновляется корпус?</h6>
+                        <p>A: Корпус пополняется при загрузке новых документов пользователями.</p>
+                        
+                        <h6>Q: Чем отличается поиск по словоформе от поиска по лемме?</h6>
+                        <p>A: Поиск по словоформе находит только точное совпадение (например, "медведя"). Поиск по лемме находит все формы слова (медведь, медведя, медведю, медведи...).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+docker swarm
+K8s
+Helm
+Git
+Maven
+Gradle
+GraphQL
+gRPC
+Spring
+Hibernate
+JUnit5
+Mockito
+JDBC
+Java RMI
+MongoDB
+Neo4j
+Cassandra
+Quarkus
+Spark
+JavaRx
+Apache Camel
+Vert.x
+Liquibase
+Flyway
+Flink
+Calcite
+HBase
+Druid
+Hive
+Lucene
+Sphinx
+Hadoop
+Athena
+nginx
+AWS
+Azure
+GCP
+Grafana
+Prometheus 
+InfluxDB
+TimescaleDB
+apache druid
+elk stack
+camunda
+testNG
+MariaDB
+Jira
+Micronaut
+Confluence
+mapstruct
+Apache POI
+Play Framework
+Apache CXF
+Jersey
+C4Model
+AsyncAPI
+Google BigQuery
+Jenkins
+Ansible
+UML
+Openshift
+ActiveMQ
+AspectJ
+Artemis
+Clickhouse
+Google Guice
+Apache storm
+Amazon SQS
+Amazon SNS
+Amazon Eventbridge
+Amazon Kinesis
+Amazon RDS
+Amazon Redshift
+Amazon API Gateway
+Apache Hive
+Apache Ignite
+Hazelcast
+Infinispan
+Hadoop
+wireMock
+Istio
+Zabbix
+Zfs
+Elasticsearch
+Terraform
+Nomad
+Vault
+Border
+Vagrant
+Consul
+Redis
+Valkey
+REST
+JPA
+JTA
+JSP
+JSF
+Sevlets
+Traefik
+Jaeger
+Linkerd
+TestContainers
+Apache Athena
+Spring Boot
+Quarkus

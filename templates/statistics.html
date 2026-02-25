@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Статистика корпуса{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Статистика корпуса</h2>
+        <p class="lead">Предметная область: {{ stats.domain }}</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body text-center">
+                <h1 class="display-4">{{ stats.documents }}</h1>
+                <h6>Документов</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body text-center">
+                <h1 class="display-4">{{ stats.sentences }}</h1>
+                <h6>Предложений</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body text-center">
+                <h1 class="display-4">{{ stats.tokens }}</h1>
+                <h6>Слов (токенов)</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body text-center">
+                <h1 class="display-4">{{ stats.unique_words }}</h1>
+                <h6>Уникальных слов</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Части речи</h5>
+            </div>
+            <div class="card-body">
+                {% if graphs and graphs[0] %}
+                    <div id="posChart"></div>
+                    <script>
+                        var posGraph = {{ graphs[0]|safe }};
+                        Plotly.newPlot('posChart', posGraph.data, posGraph.layout);
+                    </script>
+                {% else %}
+                    <p class="text-muted">Нет данных</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Топ-20 слов</h5>
+            </div>
+            <div class="card-body">
+                {% if graphs and graphs[1] %}
+                    <div id="freqChart"></div>
+                    <script>
+                        var freqGraph = {{ graphs[1]|safe }};
+                        Plotly.newPlot('freqChart', freqGraph.data, freqGraph.layout);
+                    </script>
+                {% else %}
+                    <p class="text-muted">Нет данных</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-table"></i> Морфологическая статистика</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h6>Части речи:</h6>
+                        <table class="table table-sm">
+                            {% for pos, count in stats.morphology.part_of_speech %}
+                                <tr>
+                                    <td>{{ pos }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Род:</h6>
+                        <table class="table table-sm">
+                            {% for gender, count in stats.morphology.gender %}
+                                <tr>
+                                    <td>{{ gender }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Число:</h6>
+                        <table class="table table-sm">
+                            {% for number, count in stats.morphology.number %}
+                                <tr>
+                                    <td>{{ number }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Падеж:</h6>
+                        <table class="table table-sm">
+                            {% for case, count in stats.morphology.case %}
+                                <tr>
+                                    <td>{{ case }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-download"></i> Экспорт</h5>
+            </div>
+            <div class="card-body">
+                <p>Вы можете экспортировать статистику в различных форматах:</p>
+                <a href="{{ url_for('export_statistics', format='json') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-filetype-json"></i> JSON
+                </a>
+                <a href="{{ url_for('export_statistics', format='csv') }}" class="btn btn-outline-success">
+                    <i class="bi bi-filetype-csv"></i> CSV
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
