@@ -43,6 +43,7 @@
                                 <th>Ключевое слово</th>
                                 <th>Правый контекст</th>
                                 <th>Документ</th>
+                                <th>Действия</th>
                             {% else %}
                                 <th>Предложение</th>
                                 <th>Документ</th>
@@ -57,6 +58,7 @@
                                     <th>Число</th>
                                     <th>Падеж</th>
                                 {% endif %}
+                                <th>Действия</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -68,37 +70,54 @@
                                     <td class="fw-bold text-primary">{{ item.keyword }}</td>
                                     <td>{{ item.right_context }}</td>
                                     <td>{{ item.document_title }}</td>
+                                    <td>
+                                        {% if item.sentence_id %}
+                                        <a href="{{ url_for('view_sentence_syntax', sentence_id=item.sentence_id) }}" 
+                                           class="btn btn-sm btn-outline-primary" title="Синтаксический разбор">
+                                            <i class="bi bi-diagram-3"></i>
+                                        </a>
+                                        {% endif %}
+                                    </td>
                                 {% else %}
                                     <td>{{ item.sentence_text }}</td>
                                     <td>{{ item.document_title }}</td>
-                                {% if results.type == 'word_form' or results.type == 'lemma' %}
-                                    <td>
-                                        {% if item.token_text %}
-                                            {{ item.token_text }}
-                                        {% elif item.word_form %}
-                                            {{ item.word_form }}
-                                        {% elif item.token %}
-                                            {{ item.token }}
-                                        {% else %}
-                                            {{ results.query }}
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if item.lemma %}
-                                            {{ item.lemma }}
-                                        {% elif item.normal_form %}
-                                            {{ item.normal_form }}
-                                        {% else %}
-                                        {% endif %}
-                                    </td>
-                                {% endif %}
+                                    {% if results.type == 'word_form' or results.type == 'lemma' %}
+                                        <td>
+                                            {% if item.token_text %}
+                                                {{ item.token_text }}
+                                            {% elif item.word_form %}
+                                                {{ item.word_form }}
+                                            {% elif item.token %}
+                                                {{ item.token }}
+                                            {% else %}
+                                                {{ results.query }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if item.lemma %}
+                                                {{ item.lemma }}
+                                            {% elif item.normal_form %}
+                                                {{ item.normal_form }}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
                                     {% if results.type == 'morphology' %}
                                         <td><strong>{{ item.token_text }}</strong></td>
-                                        <td>{{ item.part_of_speech }}</td>
-                                        <td>{{ item.gender }}</td>
-                                        <td>{{ item.number }}</td>
-                                        <td>{{ item.case_form }}</td>
+                                        <td>{{ item.part_of_speech or '—' }}</td>
+                                        <td>{{ item.gender or '—' }}</td>
+                                        <td>{{ item.number or '—' }}</td>
+                                        <td>{{ item.case_form or '—' }}</td>
                                     {% endif %}
+                                    <td>
+                                        {% if item.sentence_id %}
+                                        <a href="{{ url_for('view_sentence_syntax', sentence_id=item.sentence_id) }}" 
+                                           class="btn btn-sm btn-outline-primary" title="Синтаксический разбор">
+                                            <i class="bi bi-diagram-3"></i>
+                                        </a>
+                                        {% endif %}
+                                    </td>
                                 {% endif %}
                             </tr>
                         {% endfor %}

@@ -1,0 +1,711 @@
+{% extends "base.html" %}
+
+{% block title %}Синтаксический разбор предложения{% endblock %}
+
+{% block extra_css %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+    .syntax-tree-container {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        min-height: 500px;
+        border: 1px solid #dee2e6;
+        overflow-x: auto;
+    }
+    
+    .token-badge {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 4px;
+        background-color: #e9ecef;
+        border-radius: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .token-badge:hover {
+        background-color: #007bff;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .token-badge.subject {
+        border-left: 4px solid #dc3545;
+    }
+    
+    .token-badge.predicate {
+        border-left: 4px solid #28a745;
+    }
+    
+    .token-badge.object {
+        border-left: 4px solid #007bff;
+    }
+    
+    .token-badge.attribute {
+        border-left: 4px solid #ffc107;
+    }
+    
+    .token-badge.adverbial {
+        border-left: 4px solid #17a2b8;
+    }
+    
+    .relation-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 8px;
+        border: 1px solid #dee2e6;
+        transition: all 0.2s;
+    }
+    
+    .relation-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+    
+    .relation-arrow {
+        color: #6c757d;
+        margin: 0 10px;
+        font-size: 1.2rem;
+    }
+    
+    .part-of-speech-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        background-color: #e9ecef;
+        margin-left: 5px;
+    }
+    
+    .node circle {
+        stroke: #007bff;
+        stroke-width: 2px;
+        transition: all 0.2s;
+    }
+    
+    .node text {
+        font: 12px sans-serif;
+        pointer-events: none;
+    }
+    
+    .link {
+        fill: none;
+        stroke: #999;
+        stroke-width: 1.5px;
+    }
+    
+    .link-label {
+        font-size: 10px;
+        fill: #666;
+        background-color: white;
+        padding: 2px;
+    }
+    
+    .legend-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 20px;
+    }
+    
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+    
+    .loading-spinner {
+        text-align: center;
+        padding: 50px;
+    }
+    
+    .loading-spinner .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('corpus_view') }}">Корпус</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('view_document', doc_id=sentence.document_id) }}">Документ</a></li>
+                <li class="breadcrumb-item active">Синтаксический разбор</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Синтаксический разбор предложения</h2>
+            <div>
+                <button class="btn btn-outline-primary" onclick="exportAsJSON()">
+                    <i class="bi bi-filetype-json"></i> Экспорт JSON
+                </button>
+                <button class="btn btn-outline-success" onclick="exportAsCONLLU()">
+                    <i class="bi bi-file-text"></i> CONLL-U
+                </button>
+            </div>
+        </div>
+        
+        <!-- Информация о документе -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Информация</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Документ:</strong> {{ sentence.document_title }}</p>
+                        <p><strong>Предложение #{{ sentence.sentence_index + 1 }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Текст:</strong> {{ sentence.sentence_text }}</p>
+                        <p><strong>Статус:</strong> 
+                            {% if syntax.tree %}
+                                <span class="badge bg-success">Проанализировано</span>
+                            {% else %}
+                                <span class="badge bg-warning">Не проанализировано</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if syntax.tree %}
+        <!-- Визуализация дерева зависимостей -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Дерево зависимостей</h5>
+                <div>
+                    <button class="btn btn-sm btn-light" onclick="toggleLabels()">
+                        <i class="bi bi-tags"></i> Скрыть подписи
+                    </button>
+                    <button class="btn btn-sm btn-light" onclick="fitToScreen()">
+                        <i class="bi bi-arrows-fullscreen"></i> По размеру
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="syntax-tree" class="syntax-tree-container">
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Загрузка...</span>
+                        </div>
+                        <p>Загрузка графа...</p>
+                    </div>
+                </div>
+                
+                <!-- Легенда -->
+                <div class="mt-3">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #dc3545;"></div>
+                        <span>Подлежащее</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #28a745;"></div>
+                        <span>Сказуемое</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #007bff;"></div>
+                        <span>Дополнение</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ffc107;"></div>
+                        <span>Определение</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #17a2b8;"></div>
+                        <span>Обстоятельство</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+		<!-- Токены с разметкой -->
+		<div class="card mb-4">
+			<div class="card-header bg-success text-white">
+				<h5 class="mb-0"><i class="bi bi-tags"></i> Токены с разметкой</h5>
+			</div>
+			<div class="card-body">
+				<!-- Таблица токенов с полной морфологией -->
+				<div class="table-responsive mt-3">
+					<table class="table table-sm table-hover">
+						<thead class="table-dark">
+							<tr>
+								<th>#</th>
+								<th>Токен</th>
+								<th>Лемма</th>
+								<th>Часть речи</th>
+								<th>Род</th>
+								<th>Число</th>
+								<th>Падеж</th>
+								<th>Роль в предложении</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for token in tokens %}
+							<tr data-token-id="{{ token.id }}" 
+								onmouseover="highlightNode({{ token.id }})"
+								onmouseout="unhighlightNode({{ token.id }})"
+								style="cursor: pointer;">
+								<td>{{ token.token_index + 1 }}</td>
+								<td><strong>{{ token.token_text }}</strong></td>
+								<td>{{ token.normal_form or '—' }}</td>
+								<td>
+									<span class="badge bg-info">{{ token.part_of_speech or token.pos or '?' }}</span>
+								</td>
+								<td>
+									{% if token.gender %}
+										<span class="badge bg-secondary">{{ token.gender }}</span>
+									{% else %}
+										—
+									{% endif %}
+								</td>
+								<td>
+									{% if token.number %}
+										<span class="badge bg-secondary">{{ token.number }}</span>
+									{% else %}
+										—
+									{% endif %}
+								</td>
+								<td>
+									{% if token.case_form %}
+										<span class="badge bg-secondary">{{ token.case_form }}</span>
+									{% else %}
+										—
+									{% endif %}
+								</td>
+								<td>
+									{% set roles = [] %}
+									{% for part in syntax.parts %}
+										{% if part.token_id == token.id %}
+											{% set role = part.part_name or part.part_type %}
+											{% if role not in roles %}
+												{% set roles = roles.append(role) %}
+												<span class="badge bg-primary">{{ role }}</span>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+        
+        <!-- Синтаксические группы -->
+		<div class="col-md-6">
+			<div class="card mb-4">
+				<div class="card-header bg-info text-white">
+					<h5 class="mb-0"><i class="bi bi-diagram-2"></i> Синтаксические группы</h5>
+				</div>
+				<div class="card-body">
+					{% if syntax.groups and syntax.groups|length > 0 %}
+						{% for group in syntax.groups %}
+							<div class="mb-4 p-3 border rounded">
+								<h6 class="mb-3">
+									{% if group.group_type == 'NP' %}
+										<span class="badge bg-primary" style="font-size: 1rem;">
+											<i class="bi bi-file-text"></i> Именная группа
+										</span>
+									{% elif group.group_type == 'VP' %}
+										<span class="badge bg-success" style="font-size: 1rem;">
+											<i class="bi bi-file-text"></i> Глагольная группа
+										</span>
+									{% elif group.group_type == 'PP' %}
+										<span class="badge bg-warning" style="font-size: 1rem;">
+											<i class="bi bi-file-text"></i> Предложная группа
+										</span>
+									{% else %}
+										<span class="badge bg-secondary" style="font-size: 1rem;">
+											<i class="bi bi-file-text"></i> {{ group.group_type }}
+										</span>
+									{% endif %}
+								</h6>
+								
+								<div class="mb-2">
+									<strong>Состав группы:</strong>
+									<div class="d-flex flex-wrap gap-1 mt-2">
+										{% for token in tokens %}
+											{% if token.token_index >= group.start_token_index and token.token_index <= group.end_token_index %}
+												<span class="badge bg-light text-dark border p-2" 
+													  style="font-size: 0.9rem;"
+													  onmouseover="highlightNode({{ token.id }})"
+													  onmouseout="unhighlightNode({{ token.id }})">
+													{{ token.token_text }}
+													{% if token.id == group.head_token_id %}
+														<span class="ms-1 text-primary" title="Главное слово">👑</span>
+													{% endif %}
+												</span>
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
+								
+								{% if group.head_token_id %}
+									{% for token in tokens %}
+										{% if token.id == group.head_token_id %}
+											<div class="mt-2 small text-muted">
+												<strong>Главное слово:</strong> "{{ token.token_text }}" 
+												({{ token.part_of_speech or token.pos }})
+											</div>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="alert alert-info">
+							<i class="bi bi-info-circle"></i>
+							Нет данных о синтаксических группах. Выполните синтаксический анализ.
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+        </div>
+        
+        {% else %}
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            Для этого предложения не выполнен синтаксический анализ.
+            <button class="btn btn-sm btn-primary ms-3" onclick="analyzeSentence()">
+                <i class="bi bi-play"></i> Выполнить анализ
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let svg, width, height;
+let currentZoom = 1;
+let currentNodeId = null;
+
+{% if syntax.tree %}
+document.addEventListener('DOMContentLoaded', function() {
+    loadSyntaxTree();
+});
+
+function loadSyntaxTree() {
+    const container = document.getElementById('syntax-tree');
+    
+    fetch(`/api/syntax/visualize/{{ sentence.id }}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                container.innerHTML = `<div class="alert alert-warning">${data.error}</div>`;
+                return;
+            }
+            
+            // Фильтруем узлы - убираем пунктуацию и служебные символы
+            const validNodes = data.nodes.filter(node => 
+                node.label && 
+                node.label !== '_' && 
+                node.label !== '—' && 
+                node.label !== '-' &&
+                node.label !== '–' &&
+                node.label !== '…' &&
+                !node.label.match(/^[.,!?;:"'()\[\]{}]+$/)
+            );
+            
+            const validNodeIds = new Set(validNodes.map(n => n.id));
+            
+            const validLinks = data.links.filter(link => 
+                validNodeIds.has(link.source) && validNodeIds.has(link.target)
+            );
+            
+            if (validNodes.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">Нет значимых слов для визуализации</div>';
+                return;
+            }
+            
+            drawTree({
+                nodes: validNodes,
+                links: validLinks
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            container.innerHTML = '<div class="alert alert-danger">Ошибка загрузки визуализации</div>';
+        });
+}
+
+function drawTree(data) {
+    const container = document.getElementById('syntax-tree');
+    const width = container.clientWidth - 40;
+    const height = 500;
+    
+    container.innerHTML = '';
+    
+    svg = d3.select("#syntax-tree")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(40,40)");
+    
+    const nodesMap = new Map(data.nodes.map(n => [n.id, n]));
+    const targets = new Set(data.links.map(l => l.target));
+    const roots = data.nodes.filter(n => !targets.has(n.id));
+    
+    if (roots.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">Не удалось определить корень дерева</div>';
+        return;
+    }
+    
+    const hierarchy = buildHierarchy(roots[0].id, nodesMap, data.links);
+    if (!hierarchy) return;
+    
+    const treeLayout = d3.tree().size([width - 100, height - 100]);
+    const rootNode = d3.hierarchy(hierarchy);
+    const treeData = treeLayout(rootNode);
+    
+    // Рисуем связи
+    svg.selectAll('.link')
+        .data(treeData.links())
+        .enter()
+        .append('path')
+        .attr('class', 'link')
+        .attr('d', d3.linkVertical()
+            .x(d => d.x)
+            .y(d => d.y)
+        )
+        .attr('stroke', '#999')
+        .attr('fill', 'none')
+        .attr('stroke-width', 1.5);
+    
+    // Подписи связей
+    svg.selectAll('.link-label')
+        .data(treeData.links())
+        .enter()
+        .append('text')
+        .attr('class', 'link-label')
+        .attr('x', d => (d.source.x + d.target.x) / 2)
+        .attr('y', d => (d.source.y + d.target.y) / 2)
+        .attr('text-anchor', 'middle')
+        .attr('dy', -5)
+        .style('font-size', '10px')
+        .style('fill', '#666')
+        .style('background', 'white')
+        .style('padding', '2px')
+        .text(d => {
+            const link = data.links.find(l => 
+                l.source === d.source.data.id && l.target === d.target.data.id
+            );
+            return link ? link.name : '';
+        });
+    
+    // Рисуем узлы
+    const nodes = svg.selectAll('.node')
+        .data(treeData.descendants())
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+        .attr('transform', d => `translate(${d.x},${d.y})`)
+        .attr('data-node-id', d => d.data.id)
+        .on('mouseover', function(event, d) {
+            highlightNode(d.data.id);
+        })
+        .on('mouseout', function(event, d) {
+            unhighlightNode(d.data.id);
+        });
+    
+    nodes.append('circle')
+        .attr('r', 25)
+        .attr('fill', d => getNodeColor(d.data.id))
+        .attr('stroke', '#007bff')
+        .attr('stroke-width', 2);
+    
+    nodes.append('text')
+        .attr('dy', 35)
+        .attr('text-anchor', 'middle')
+        .text(d => d.data.label)
+        .style('font-size', '12px')
+        .style('font-weight', 'bold');
+}
+
+function buildHierarchy(rootId, nodesMap, links) {
+    const node = nodesMap.get(rootId);
+    if (!node) return null;
+    
+    const children = links
+        .filter(l => l.source === rootId)
+        .map(l => buildHierarchy(l.target, nodesMap, links))
+        .filter(c => c !== null);
+    
+    return {
+        id: node.id,
+        label: node.label,
+        children: children.length > 0 ? children : undefined
+    };
+}
+
+function getNodeColor(nodeId) {
+    {% for part in syntax.parts %}
+        if (nodeId === {{ part.token_id }}) {
+            {% if part.part_type == 'subject' or part.part_name == 'nsubj' %}
+                return '#dc3545';
+            {% elif part.part_type == 'predicate' or part.part_name == 'ROOT' %}
+                return '#28a745';
+            {% elif part.part_type == 'object' or part.part_name == 'obj' %}
+                return '#007bff';
+            {% elif part.part_type == 'attribute' or part.part_name == 'amod' %}
+                return '#ffc107';
+            {% elif part.part_type == 'adverbial' or part.part_name == 'advmod' %}
+                return '#17a2b8';
+            {% endif %}
+        }
+    {% endfor %}
+    return '#6c757d';
+}
+{% endif %}
+
+function highlightNode(nodeId) {
+    if (currentNodeId === nodeId) return;
+    
+    d3.selectAll(`[data-node-id="${nodeId}"] circle`)
+        .attr('r', 30)
+        .attr('stroke', '#ff0000')
+        .attr('stroke-width', 3);
+    
+    document.querySelectorAll(`[data-token-id="${nodeId}"]`).forEach(el => {
+        el.style.backgroundColor = '#fff3cd';
+        el.style.transform = 'scale(1.02)';
+        el.style.transition = 'all 0.2s';
+    });
+    
+    currentNodeId = nodeId;
+}
+
+function unhighlightNode(nodeId) {
+    d3.selectAll(`[data-node-id="${nodeId}"] circle`)
+        .attr('r', 25)
+        .attr('stroke', '#007bff')
+        .attr('stroke-width', 2);
+    
+    document.querySelectorAll(`[data-token-id="${nodeId}"]`).forEach(el => {
+        el.style.backgroundColor = '';
+        el.style.transform = '';
+    });
+    
+    if (currentNodeId === nodeId) {
+        currentNodeId = null;
+    }
+}
+
+function highlightRelation(headId, depId) {
+    highlightNode(headId);
+    highlightNode(depId);
+    
+    d3.selectAll('.link').each(function() {
+        const path = d3.select(this);
+        // Здесь можно добавить подсветку конкретной связи
+    });
+}
+
+function unhighlightRelation(headId, depId) {
+    unhighlightNode(headId);
+    unhighlightNode(depId);
+}
+
+function focusNode(nodeId) {
+    const element = document.querySelector(`tr[data-token-id="${nodeId}"]`);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.style.backgroundColor = '#e3f2fd';
+        setTimeout(() => {
+            element.style.backgroundColor = '';
+        }, 1000);
+    }
+}
+
+function toggleLabels() {
+    const labels = document.querySelectorAll('.link-label');
+    const firstLabel = labels[0];
+    const currentDisplay = firstLabel ? firstLabel.style.display : 'block';
+    
+    labels.forEach(label => {
+        label.style.display = currentDisplay === 'none' ? 'block' : 'none';
+    });
+}
+
+function fitToScreen() {
+    if (svg) {
+        svg.attr('transform', 'translate(40,40)');
+    }
+}
+
+function exportAsJSON() {
+    const data = {
+        sentence: {{ sentence|tojson }},
+        tokens: {{ tokens|tojson }},
+        syntax: {{ syntax|tojson }}
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `syntax_{{ sentence.id }}.json`;
+    a.click();
+}
+
+function exportAsCONLLU() {
+    let conllu = `# sent_id = {{ sentence.id }}\n`;
+    conllu += `# text = {{ sentence.sentence_text }}\n`;
+    
+    {% for token in tokens %}
+        {% set rel = syntax.relations|selectattr('dependent_token_id', 'equalto', token.id)|first %}
+        conllu += `{{ loop.index }}\t`;
+        conllu += `{{ token.token_text }}\t`;
+        conllu += `{{ token.normal_form or '_' }}\t`;
+        conllu += `{{ token.part_of_speech or '_' }}\t`;
+        conllu += `{{ token.tag or '_' }}\t`;
+        conllu += `_\t`;
+        conllu += `{{ (rel.head_token_id + 1) if rel else 0 }}\t`;
+        conllu += `{{ rel.relation_type if rel else 'root' }}\t`;
+        conllu += `_\t_\n`;
+    {% endfor %}
+    
+    const blob = new Blob([conllu], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `syntax_{{ sentence.id }}.conllu`;
+    a.click();
+}
+
+function analyzeSentence() {
+    fetch(`/syntax/analyze/{{ sentence.document_id }}`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Ошибка: ' + data.error);
+        } else {
+            location.reload();
+        }
+    });
+}
+</script>
+{% endblock %}

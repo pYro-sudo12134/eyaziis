@@ -40,6 +40,23 @@
                             <i class="bi bi-question-circle"></i> Справка
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="syntaxDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-diagram-3"></i> Синтаксис
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('syntax_search') }}">
+                                    <i class="bi bi-search"></i> Поиск по синтаксису
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('statistics') }}?tab=syntax">
+                                    <i class="bi bi-bar-chart"></i> Статистика
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="d-flex" action="{{ url_for('search') }}" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Быстрый поиск по словоформе..." aria-label="Search">

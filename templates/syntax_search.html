@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск по синтаксису{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('search') }}">Поиск</a></li>
+                <li class="breadcrumb-item active">Синтаксический поиск</li>
+            </ol>
+        </nav>
+        
+        <h2>Поиск по синтаксическим конструкциям</h2>
+        <p class="lead">Найдите предложения с определенной грамматической структурой</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-search"></i> Параметры поиска</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('syntax_search') }}">
+                    <div class="mb-3">
+                        <label for="relation" class="form-label">Тип синтаксической связи</label>
+                        <select class="form-select" id="relation" name="relation">
+                            <option value="">Любая связь</option>
+                            {% for rel in relation_types %}
+                                <option value="{{ rel.type }}" 
+                                        {% if selected_relation == rel.type %}selected{% endif %}>
+                                    {{ rel.name }} ({{ rel.type }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="head_pos" class="form-label">Часть речи главного слова</label>
+                        <select class="form-select" id="head_pos" name="head_pos">
+                            <option value="">Любая</option>
+                            <option value="NOUN" {% if selected_head_pos == 'NOUN' %}selected{% endif %}>Существительное</option>
+                            <option value="VERB" {% if selected_head_pos == 'VERB' %}selected{% endif %}>Глагол</option>
+                            <option value="ADJ" {% if selected_head_pos == 'ADJ' %}selected{% endif %}>Прилагательное</option>
+                            <option value="ADV" {% if selected_head_pos == 'ADV' %}selected{% endif %}>Наречие</option>
+                            <option value="PRON" {% if selected_head_pos == 'PRON' %}selected{% endif %}>Местоимение</option>
+                            <option value="NUM" {% if selected_head_pos == 'NUM' %}selected{% endif %}>Числительное</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="dep_pos" class="form-label">Часть речи зависимого слова</label>
+                        <select class="form-select" id="dep_pos" name="dep_pos">
+                            <option value="">Любая</option>
+                            <option value="NOUN" {% if selected_dep_pos == 'NOUN' %}selected{% endif %}>Существительное</option>
+                            <option value="VERB" {% if selected_dep_pos == 'VERB' %}selected{% endif %}>Глагол</option>
+                            <option value="ADJ" {% if selected_dep_pos == 'ADJ' %}selected{% endif %}>Прилагательное</option>
+                            <option value="ADV" {% if selected_dep_pos == 'ADV' %}selected{% endif %}>Наречие</option>
+                            <option value="PRON" {% if selected_dep_pos == 'PRON' %}selected{% endif %}>Местоимение</option>
+                            <option value="NUM" {% if selected_dep_pos == 'NUM' %}selected{% endif %}>Числительное</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="domain" class="form-label">Предметная область</label>
+                        <select class="form-select" id="domain" name="domain">
+                            <option value="animals" selected>Животные</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Найти
+                    </button>
+                </form>
+                
+                <!-- Примеры запросов -->
+                <div class="mt-4">
+                    <h6><i class="bi bi-lightbulb"></i> Примеры:</h6>
+                    <ul class="small">
+                        <li>
+                            <a href="?relation=nsubj&head_pos=VERB&dep_pos=NOUN">
+                                Подлежащее (сущ) + сказуемое (глагол)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?relation=amod&head_pos=NOUN&dep_pos=ADJ">
+                                Существительное + прилагательное (согласование)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?relation=obj&head_pos=VERB&dep_pos=NOUN">
+                                Глагол + прямое дополнение
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?relation=advmod&head_pos=VERB&dep_pos=ADV">
+                                Глагол + наречие
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-list"></i> Результаты поиска</h5>
+                <span class="badge bg-light text-dark">Найдено: {{ results|length }}</span>
+            </div>
+            <div class="card-body">
+                {% if results %}
+                    <div class="list-group">
+                        {% for item in results %}
+                            <div class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1 text-primary">{{ item.document_title }}</h6>
+                                    <small class="text-muted">{{ item.relation_type }}</small>
+                                </div>
+                                <p class="mb-2">{{ item.sentence_text }}</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-light text-dark border me-2">
+                                        <strong>{{ item.head_word }}</strong> ({{ item.head_pos }})
+                                    </span>
+                                    <i class="bi bi-arrow-right text-muted"></i>
+                                    <span class="badge bg-light text-dark border ms-2">
+                                        <strong>{{ item.dependent_word }}</strong> ({{ item.dep_pos }})
+                                    </span>
+                                </div>
+                                <div class="mt-2">
+                                    <a href="{{ url_for('view_sentence_syntax', sentence_id=item.sentence_id) }}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Просмотр разбора
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-search display-1 text-muted"></i>
+                        <h4 class="mt-3">Ничего не найдено</h4>
+                        <p class="text-muted">Попробуйте изменить параметры поиска</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

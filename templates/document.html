@@ -49,6 +49,9 @@
                     <li class="mb-2">
                         <strong>Предложений:</strong> {{ sentences|length }}
                     </li>
+                    <a href="{{ url_for('view_document_syntax', doc_id=document.id) }}" class="btn btn-info">
+                        <i class="bi bi-diagram-3"></i> Синтаксический разбор
+                    </a>
                 </ul>
             </div>
         </div>
